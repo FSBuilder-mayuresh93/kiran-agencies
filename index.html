@@ -1739,6 +1739,7 @@ section { position: relative; }
         border-left: none;
         font-size: 0.8rem;
         flex-shrink: 0;
+        width: auto;
     }
     .catalog-filter.active {
         background: var(--primary);
@@ -1779,7 +1780,7 @@ section { position: relative; }
 
 .why-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 28px;
 }
 
@@ -2602,9 +2603,11 @@ section { position: relative; }
     .hero-content { padding: 0 16px; }
     .hero-badge { padding: 6px 14px; }
     .hero-badge span { font-size: 0.65rem; letter-spacing: 0.1em; }
+    .about-visual { display: none; }
+    .about-grid { gap: 0; }
     .products-grid { grid-template-columns: 1fr; }
     .product-card { padding: 28px 20px; }
-    .why-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
     .why-card { padding: 32px 24px; }
     .stats-row { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .stat-number { font-size: 2rem; }
@@ -2950,9 +2953,8 @@ section { position: relative; }
             <div class="about-content">
                 <div class="section-label">Our Story</div>
                 <h3>Rooted in Trust, Growing with India's Farmers</h3>
-                <p>For over 15 years, Kiran Agencies has been a cornerstone of agricultural excellence in Jalgaon, serving as a premier dealer and distributor of high-quality seeds, fertilizers, and crop protection solutions.</p>
-                <p>We are authorized distributors for leading brands like Rasi Seeds, Nuziveedu, Mahyco, Ankur Seeds, UPL, Syngenta, and IFFCO — offering the finest products backed by expert guidance and timely delivery that farmers across the region rely on.</p>
-                <p>From cotton and wheat to jowar and sunflower, we partner with every grower across 5 districts to ensure their fields flourish and harvests prosper.</p>
+                <p>For 15+ years, Kiran Agencies has been Jalgaon's trusted source for premium seeds, fertilizers, and crop protection — authorized distributors for Rasi Seeds, Nuziveedu, Mahyco, Ankur Seeds, UPL, Syngenta, and IFFCO.</p>
+                <p>From cotton and wheat to jowar and sunflower, we partner with 5,000+ farmers across 5 districts to ensure every harvest prospers.</p>
             </div>
         </div>
 
@@ -3032,7 +3034,7 @@ section { position: relative; }
             <p class="section-subtitle">Comprehensive agricultural solutions to maximize your yield and protect your crops</p>
         </div>
 
-        <div class="products-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="products-grid">
             <div class="product-card" data-category="seeds">
                 <div class="product-glow"></div>
                 <div class="product-card-particles" id="particles-seeds"></div>
@@ -3168,16 +3170,8 @@ section { position: relative; }
                 <div class="why-icon">
                     <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
                 </div>
-                <h3>Quality Assurance</h3>
-                <p>Every product undergoes rigorous quality checks. We source only from certified manufacturers and authorized channels, ensuring you receive genuine, effective products.</p>
-            </div>
-
-            <div class="why-card">
-                <div class="why-icon">
-                    <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-                </div>
-                <h3>Wide Product Range</h3>
-                <p>From seeds to fertilizers, pesticides to organic solutions — find everything you need under one roof. We stock 100+ products across all major agricultural categories.</p>
+                <h3>Certified Quality</h3>
+                <p>100+ genuine products from certified manufacturers — all under one roof.</p>
             </div>
 
             <div class="why-card">
@@ -3185,31 +3179,23 @@ section { position: relative; }
                     <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
                 </div>
                 <h3>Expert Guidance</h3>
-                <p>Our experienced agricultural advisors provide personalized recommendations for crop selection, soil management, and pest control tailored to your region.</p>
+                <p>Personalized crop advice from advisors who know Khandesh soil.</p>
             </div>
 
             <div class="why-card">
                 <div class="why-icon">
                     <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5a2 2 0 01-2 2h-1"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                 </div>
-                <h3>Timely Delivery</h3>
-                <p>We understand that timing is crucial in farming. Our efficient logistics network ensures your orders reach you before the sowing season — every time.</p>
-            </div>
-
-            <div class="why-card">
-                <div class="why-icon">
-                    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-                </div>
-                <h3>Competitive Pricing</h3>
-                <p>As authorized distributors, we offer the best market rates without compromising on quality. Bulk discounts and seasonal offers help you maximize value.</p>
+                <h3>Reliable Service</h3>
+                <p>Best rates, bulk discounts & delivery before every sowing season.</p>
             </div>
 
             <div class="why-card">
                 <div class="why-icon">
                     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
                 </div>
-                <h3>Trusted by Thousands</h3>
-                <p>Over 5,000 farmers and dealers across 5 districts trust Kiran Agencies for their agricultural needs. Our reputation is built on results.</p>
+                <h3>Trusted by 5,000+</h3>
+                <p>Farmers & dealers across 5 districts — our reputation speaks for itself.</p>
             </div>
         </div>
     </div>
