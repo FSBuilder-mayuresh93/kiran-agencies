@@ -128,7 +128,7 @@ ul { list-style: none; }
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s ease;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s ease;
     overflow: hidden;
 }
 
@@ -3610,12 +3610,12 @@ section { position: relative; }
     // ── Page Loader ──────────────────────────────
     const loader = document.getElementById('page-loader');
     // Force reveal after 7.5s max
-    const loaderTimeout = setTimeout(() => loader.classList.add('loaded'), 6000);
+    const loaderTimeout = setTimeout(() => loader.classList.add('loaded'), 5500);
 
     window.addEventListener('load', () => {
         clearTimeout(loaderTimeout);
-        // Full sequence (~4.5s) + brief hold + fade
-        setTimeout(() => loader.classList.add('loaded'), 5000);
+        // Full sequence (~4.5s) + quick fade
+        setTimeout(() => loader.classList.add('loaded'), 4600);
     });
 
     // ── Navbar ────────────────────────────────────
@@ -3806,14 +3806,14 @@ section { position: relative; }
     gsap.set('.hero-ctas', { opacity: 0, y: 20 });
     gsap.set('.scroll-indicator', { opacity: 0 });
 
-    // 6s loader + 0.5s buffer for fade start
+    // Hero text starts as loader fades — no gap
     setTimeout(function() {
         gsap.to('.hero h1 .word span', { yPercent: 0, duration: 1, stagger: 0.12, ease: 'power4.out' });
         gsap.to('.hero-badge', { opacity: 1, y: 0, duration: 0.6, delay: 0.3, ease: 'power3.out' });
         gsap.to('.hero-tagline', { opacity: 1, y: 0, duration: 0.8, delay: 0.6, ease: 'power3.out' });
         gsap.to('.hero-ctas', { opacity: 1, y: 0, duration: 0.8, delay: 0.8, ease: 'power3.out' });
         gsap.to('.scroll-indicator', { opacity: 1, duration: 0.6, delay: 1.2 });
-    }, 6500);
+    }, 4700);
 
     // ── Scroll Reveal (IntersectionObserver + CSS) ──
     // More reliable than gsap.from() which hides elements until scroll
