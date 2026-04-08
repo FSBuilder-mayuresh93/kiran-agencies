@@ -2664,7 +2664,18 @@ section { position: relative; }
 @media (max-width: 480px) {
     .hero h1 { font-size: clamp(1.8rem, 9vw, 2.8rem); }
     .hero-tagline { font-size: 0.9rem; }
-    .gallery-grid { columns: 1; }
+    .gallery-grid {
+        columns: 2;
+        column-gap: 8px;
+    }
+    .gallery-item {
+        margin-bottom: 8px;
+        border-radius: 8px;
+    }
+    .gallery-item img {
+        max-height: 140px;
+        object-fit: cover;
+    }
     .newsletter-form { flex-direction: column; }
     .stats-row { grid-template-columns: repeat(2, 1fr); }
     .section-padding { padding: 48px 16px; }
