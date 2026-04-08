@@ -3571,8 +3571,8 @@ section { position: relative; }
                 <h4>Stay Updated</h4>
                 <p>Get seasonal tips, product launches, and farming insights delivered to your inbox.</p>
                 <div class="newsletter-form">
-                    <input type="email" placeholder="Your email address" aria-label="Email for newsletter">
-                    <button type="button">Subscribe</button>
+                    <input type="email" id="newsletterEmail" placeholder="Your email address" aria-label="Email for newsletter">
+                    <button type="button" id="newsletterBtn">Subscribe</button>
                 </div>
             </div>
         </div>
@@ -4212,6 +4212,21 @@ section { position: relative; }
         window.open(`https://api.whatsapp.com/send?phone=919422275466&text=${waText}`, '_blank');
         showToast('Opening WhatsApp — we will respond shortly!');
         contactForm.reset();
+    });
+
+    // ── Newsletter Subscribe → WhatsApp ──────────
+    document.getElementById('newsletterBtn').addEventListener('click', () => {
+        const email = document.getElementById('newsletterEmail').value.trim();
+        if (!email || !email.includes('@')) {
+            showToast('Please enter a valid email address.', true);
+            return;
+        }
+        const waText = encodeURIComponent(
+            `Hi Kiran Agencies,\n\nMy email is ${email}.\nI would like to receive seasonal tips, product updates & farming insights.\n\nPlease add me to your updates list. Thank you!`
+        );
+        window.open(`https://api.whatsapp.com/send?phone=919422275466&text=${waText}`, '_blank');
+        showToast('Opening WhatsApp — we\'ll add you to our updates list!');
+        document.getElementById('newsletterEmail').value = '';
     });
 
     // ── Smooth Scroll for anchor links ───────────
