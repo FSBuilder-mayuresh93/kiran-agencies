@@ -1424,9 +1424,9 @@ section { position: relative; }
 }
 
 /* ═══════════════════════════════════════════════
-   PRODUCT MODAL
+   CATALOG OVERLAY (Product Modal Redesign)
    ═══════════════════════════════════════════════ */
-.product-modal {
+.catalog-overlay {
     position: fixed;
     inset: 0;
     z-index: 9998;
@@ -1437,166 +1437,258 @@ section { position: relative; }
     justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.4s ease;
-    padding: 24px;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
+.catalog-overlay.active { opacity: 1; visibility: visible; }
 
-.product-modal.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.product-modal-content {
-    background: var(--white);
+.catalog-container {
+    width: 95vw;
+    height: 92vh;
+    max-width: 1200px;
+    background: var(--cream);
     border-radius: var(--radius-lg);
-    max-width: 800px;
-    width: 100%;
-    max-height: 85vh;
-    overflow-y: auto;
-    transform: scale(0.9) translateY(20px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateY(40px) scale(0.97);
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+}
+.catalog-overlay.active .catalog-container {
+    transform: translateY(0) scale(1);
 }
 
-.product-modal.active .product-modal-content {
-    transform: scale(1) translateY(0);
-}
-
-.product-modal-header {
-    padding: 36px 40px 24px;
-    border-bottom: 1px solid var(--cream-dark);
+/* Header */
+.catalog-header {
+    background: var(--primary-dark);
+    padding: 28px 36px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
-    top: 0;
-    background: var(--white);
+    flex-shrink: 0;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    z-index: 2;
 }
-
-.product-modal-header h2 {
+.catalog-header h2 {
     font-family: var(--font-heading);
     font-size: 2rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--white);
+    margin-bottom: 2px;
 }
-
-.product-modal-header p {
-    font-size: 0.9rem;
-    color: var(--text-light);
-    margin-top: 4px;
+.catalog-header p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.6);
 }
-
-.product-modal-close {
+.catalog-close {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: var(--cream);
+    background: rgba(255,255,255,0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
-    color: var(--text);
+    font-size: 1.4rem;
+    color: var(--white);
     cursor: pointer;
     transition: all 0.3s ease;
     flex-shrink: 0;
 }
+.catalog-close:hover { background: rgba(255,255,255,0.2); }
 
-.product-modal-close:hover {
-    background: var(--primary);
-    color: var(--white);
-}
-
-.product-modal-body {
-    padding: 32px 40px 40px;
-}
-
-.product-modal-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-}
-
-.product-sub-item {
-    background: var(--cream);
-    border-radius: var(--radius);
-    padding: 20px 24px;
+/* Body — sidebar + content */
+.catalog-body {
     display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
+    flex: 1;
+    overflow: hidden;
 }
 
-.product-sub-item:hover {
+/* Sidebar */
+.catalog-sidebar {
+    width: 200px;
+    flex-shrink: 0;
     background: var(--white);
-    border-color: var(--primary-light);
-    box-shadow: var(--shadow);
-    transform: translateY(-2px);
+    border-right: 1px solid var(--cream-dark);
+    padding: 16px 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
-
-.product-sub-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: var(--white);
+.catalog-filter {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: var(--font-body);
+    border-left: 3px solid transparent;
+}
+.catalog-filter:hover {
+    background: rgba(45,90,39,0.05);
+    color: var(--primary);
+}
+.catalog-filter.active {
+    background: rgba(45,90,39,0.08);
+    color: var(--primary);
+    font-weight: 600;
+    border-left-color: var(--primary);
+}
+.catalog-filter-icon {
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
     flex-shrink: 0;
 }
 
-.product-sub-item:hover .product-sub-icon {
-    background: rgba(45,90,39,0.1);
+/* Content area */
+.catalog-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 32px;
+    scroll-behavior: smooth;
+}
+.catalog-content::-webkit-scrollbar { width: 6px; }
+.catalog-content::-webkit-scrollbar-track { background: transparent; }
+.catalog-content::-webkit-scrollbar-thumb { background: var(--cream-dark); border-radius: 3px; }
+
+/* Section title (when showing "All") */
+.catalog-section-title {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--cream-dark);
+}
+.catalog-section-title:not(:first-child) { margin-top: 36px; }
+
+/* Card grid */
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 8px;
 }
 
-.product-sub-icon svg {
-    width: 22px;
-    height: 22px;
-    stroke: var(--primary);
-    fill: none;
-    stroke-width: 1.5;
+/* Brand card */
+.brand-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 24px;
+    border: 1px solid var(--cream-dark);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
-
-.product-sub-name {
-    font-weight: 600;
-    color: var(--text);
-    font-size: 0.95rem;
-    margin-bottom: 4px;
+.brand-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary), var(--secondary-light));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
 }
+.brand-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-color: rgba(139,105,20,0.2);
+}
+.brand-card:hover::before { transform: scaleX(1); }
 
-.product-sub-brand {
-    font-size: 0.78rem;
+.brand-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.brand-monogram {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(45,90,39,0.08);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.brand-card-name {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
     color: var(--secondary);
+}
+
+.brand-card-skus {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.brand-card-sku {
+    font-size: 0.88rem;
+    color: var(--text);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.4;
+}
+.brand-card-sku::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-light);
+}
+
+.brand-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.brand-card-tag {
+    font-size: 0.68rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-}
-
-.product-sub-desc {
-    font-size: 0.85rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--cream);
     color: var(--text-light);
-    margin-top: 4px;
-    line-height: 1.5;
 }
 
-.product-modal-cta {
-    margin-top: 32px;
-    padding-top: 24px;
+/* Footer CTA */
+.catalog-footer {
+    padding: 16px 32px;
+    background: var(--white);
     border-top: 1px solid var(--cream-dark);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 16px;
-    flex-wrap: wrap;
+    flex-shrink: 0;
 }
-
-.product-modal-cta p {
-    font-size: 0.92rem;
+.catalog-footer p {
+    font-size: 0.9rem;
     color: var(--text-light);
 }
-
-.product-modal-cta a {
+.catalog-footer a {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -1607,26 +1699,62 @@ section { position: relative; }
     font-weight: 600;
     font-size: 0.85rem;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
-
-.product-modal-cta a:hover {
+.catalog-footer a:hover {
     background: #1da851;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(37,211,102,0.3);
 }
+.catalog-footer a svg { width: 18px; height: 18px; fill: white; }
 
-.product-modal-cta a svg {
-    width: 18px;
-    height: 18px;
-    fill: white;
+/* Card enter animation */
+.brand-card { opacity: 0; transform: translateY(12px); }
+.brand-card.card-visible { opacity: 1; transform: translateY(0); transition: opacity 0.3s ease, transform 0.3s ease; }
+
+/* ── Catalog Responsive ── */
+@media (max-width: 1024px) {
+    .catalog-grid { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 768px) {
-    .product-modal-content { margin: 16px; }
-    .product-modal-header { padding: 24px 24px 20px; }
-    .product-modal-header h2 { font-size: 1.5rem; }
-    .product-modal-body { padding: 24px; }
-    .product-modal-grid { grid-template-columns: 1fr; }
+    .catalog-container { width: 100vw; height: 100vh; border-radius: 0; }
+    .catalog-header { padding: 20px 20px 16px; border-radius: 0; }
+    .catalog-header h2 { font-size: 1.5rem; }
+    .catalog-body { flex-direction: column; }
+    .catalog-sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-right: none;
+        border-bottom: 1px solid var(--cream-dark);
+        padding: 8px 12px;
+        gap: 4px;
+        flex-shrink: 0;
+    }
+    .catalog-filter {
+        white-space: nowrap;
+        padding: 8px 14px;
+        border-radius: 20px;
+        border-left: none;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+    }
+    .catalog-filter.active {
+        background: var(--primary);
+        color: var(--white);
+        border-left-color: transparent;
+    }
+    .catalog-content { padding: 20px 16px; }
+    .catalog-grid { grid-template-columns: 1fr; }
+    .catalog-footer { padding: 12px 16px; flex-direction: column; gap: 10px; text-align: center; }
+    .catalog-footer a { width: 100%; justify-content: center; }
+    .brand-card { padding: 20px; }
+}
+@media (max-width: 480px) {
+    .catalog-header { padding: 16px; }
+    .catalog-header h2 { font-size: 1.3rem; }
+    .catalog-section-title { font-size: 1.2rem; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -2504,10 +2632,7 @@ section { position: relative; }
     .hero-fireflies { opacity: 0.4; }
     .hero-plant-center { display: none; }
     .contact-map { height: 180px; }
-    .product-modal-content { margin: 8px; max-height: 90vh; }
-    .product-modal-header { padding: 20px 20px 16px; }
-    .product-modal-header h2 { font-size: 1.3rem; }
-    .product-modal-body { padding: 20px; }
+    /* catalog overlay responsive handled in its own media block */
 }
 
 @media (max-width: 480px) {
@@ -3004,24 +3129,25 @@ section { position: relative; }
 </section>
 
 <!-- Product Modal -->
-<div class="product-modal" id="productModal" role="dialog" aria-label="Product details">
-    <div class="product-modal-content">
-        <div class="product-modal-header">
+<div class="catalog-overlay" id="catalogOverlay" role="dialog" aria-label="Product catalog">
+    <div class="catalog-container">
+        <div class="catalog-header">
             <div>
-                <h2 id="modalTitle">Seeds</h2>
-                <p id="modalSubtitle">Our premium seed range</p>
+                <h2 id="catalogTitle">Seeds</h2>
+                <p id="catalogSubtitle">Premium hybrid &amp; certified seeds</p>
             </div>
-            <button class="product-modal-close" id="modalClose" aria-label="Close">&times;</button>
+            <button class="catalog-close" id="catalogClose" aria-label="Close">&times;</button>
         </div>
-        <div class="product-modal-body">
-            <div class="product-modal-grid" id="modalGrid"></div>
-            <div class="product-modal-cta">
-                <p>Interested in any product? Get pricing and availability instantly.</p>
-                <a href="https://wa.me/919920997333?text=Hi%2C%20I%27m%20interested%20in%20your%20products.%20Please%20share%20details." target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
-                    WhatsApp for Pricing
-                </a>
-            </div>
+        <div class="catalog-body">
+            <div class="catalog-sidebar" id="catalogSidebar"></div>
+            <div class="catalog-content" id="catalogContent"></div>
+        </div>
+        <div class="catalog-footer">
+            <p>Interested in any product? Get pricing &amp; availability instantly.</p>
+            <a id="catalogWhatsApp" href="https://wa.me/919920997333" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+                WhatsApp for Pricing
+            </a>
         </div>
     </div>
 </div>
@@ -3778,88 +3904,216 @@ section { position: relative; }
     }, { threshold: 0.2 });
     burstObserver.observe(document.querySelector('.products-grid'));
 
-    // ── Product Modal ─────────────────────────────
-    const productData = {
+    // ── Catalog Overlay (Product Modal Redesign) ───
+    const catalogData = {
         seeds: {
             title: 'Seeds',
             subtitle: 'Premium hybrid & certified seeds from top Indian brands',
-            items: [
-                { name: 'Cotton Seeds (BT Hybrid)', brand: 'Rasi Seeds / Mahyco', desc: 'High-yielding BT cotton hybrids suited for Khandesh black soil. Excellent boll size and fibre quality.' },
-                { name: 'Cotton Seeds (BT-II)', brand: 'Nuziveedu (NSL)', desc: 'Bollworm-resistant varieties with strong performance in rain-fed and irrigated conditions.' },
-                { name: 'Cotton Seeds', brand: 'Ankur Seeds', desc: 'Trusted cotton hybrids with good germination rates and drought tolerance for Jalgaon district.' },
-                { name: 'Wheat Seeds', brand: 'Multiple Brands', desc: 'Certified wheat varieties including Lok-1, Sujata, and other high-yield options for rabi season.' },
-                { name: 'Jowar Seeds (Sorghum)', brand: 'Mahyco / Rasi', desc: 'Hybrid jowar varieties for grain and fodder. Suited for dryland farming in Maharashtra.' },
-                { name: 'Sunflower Seeds', brand: 'Rasi Seeds / Nuziveedu', desc: 'High oil-content sunflower hybrids with excellent head size and disease resistance.' }
-            ]
+            filters: [
+                { id: 'all', label: 'All Seeds', icon: '\u{1F33E}' },
+                { id: 'cotton', label: 'Cotton', icon: '\u{2601}\uFE0F' },
+                { id: 'wheat', label: 'Wheat', icon: '\u{1F33E}' },
+                { id: 'jowar', label: 'Jowar', icon: '\u{1F33F}' },
+                { id: 'sunflower', label: 'Sunflower', icon: '\u{1F33B}' }
+            ],
+            groups: {
+                cotton: { title: 'Cotton Seeds', brands: [
+                    { name: 'Rasi Seeds', initial: 'R', skus: ['RCH 668 BG II', 'RCH 947 BG II', 'RCH 999 BG II (Amaze)'], tags: ['Cotton', 'BT Hybrid'] },
+                    { name: 'Nuziveedu (NSL)', initial: 'N', skus: ['Mallika Gold (NCS-955 BT-2)'], tags: ['Cotton', 'BT-2'] },
+                    { name: 'Mahyco', initial: 'M', skus: ['MRC 7373 BG II'], tags: ['Cotton', 'BT Hybrid'] },
+                    { name: 'Ankur Seeds', initial: 'A', skus: ['Ankur 3028 BG II'], tags: ['Cotton', 'BT Hybrid'] }
+                ]},
+                wheat: { title: 'Wheat Seeds', brands: [
+                    { name: 'Certified Varieties', initial: 'W', skus: ['Lok-1', 'GW 496', 'HD 2189', 'HI 1544 (Purna)'], tags: ['Wheat', 'Rabi'] }
+                ]},
+                jowar: { title: 'Jowar (Sorghum) Seeds', brands: [
+                    { name: 'Mahyco', initial: 'M', skus: ['Elegant (MSH-51)'], tags: ['Jowar', 'Hybrid'] }
+                ]},
+                sunflower: { title: 'Sunflower Seeds', brands: [
+                    { name: 'Mahyco', initial: 'M', skus: ['MSFH-17', 'MSFH-17 Plus', 'Mahyco Black'], tags: ['Sunflower', 'Hybrid'] },
+                    { name: 'Nuziveedu (NSL)', initial: 'N', skus: ['Sunlight (NSFH-1001)', 'Swathi (NSFH-145)'], tags: ['Sunflower', 'Hybrid'] },
+                    { name: 'Rasi Seeds', initial: 'R', skus: ['RSH-1'], tags: ['Sunflower', 'Hybrid'] }
+                ]}
+            }
         },
         fertilizers: {
             title: 'Fertilizers',
-            subtitle: 'Complete crop nutrition from India\'s leading fertilizer brands',
-            items: [
-                { name: 'DAP (Di-Ammonium Phosphate)', brand: 'IFFCO', desc: '18-46-0 formula. Essential phosphorus and nitrogen for strong root development during sowing.' },
-                { name: 'NPK Complex Fertilizers', brand: 'IFFCO', desc: 'Balanced 10:26:26, 12:32:16, and 20:20:0 formulations for different crop stages.' },
-                { name: 'Urea (46% Nitrogen)', brand: 'IFFCO', desc: 'Top-dressing nitrogen source for vegetative growth. Neem-coated for slow release.' },
-                { name: 'Specialty Fertilizers', brand: 'Syngenta', desc: 'Water-soluble and foliar fertilizers for targeted micronutrient delivery and yield boost.' },
-                { name: 'Zinc Sulphate & Micronutrients', brand: 'UPL', desc: 'Essential micronutrient supplements to correct deficiencies and improve crop quality.' },
-                { name: 'SSP (Single Super Phosphate)', brand: 'Multiple Brands', desc: 'Cost-effective phosphorus source with added sulphur and calcium for soil health.' }
-            ]
+            subtitle: 'Complete crop nutrition from India\u2019s leading brands',
+            filters: [
+                { id: 'all', label: 'All', icon: '\u{1F9EA}' },
+                { id: 'dap', label: 'DAP', icon: '\u{1F48A}' },
+                { id: 'npk', label: 'NPK', icon: '\u{2697}\uFE0F' },
+                { id: 'urea', label: 'Urea', icon: '\u{1F9C2}' },
+                { id: 'micro', label: 'Micronutrients', icon: '\u{1F52C}' },
+                { id: 'nano', label: 'Nano', icon: '\u{2728}' },
+                { id: 'specialty', label: 'Specialty', icon: '\u{1F33F}' }
+            ],
+            groups: {
+                dap: { title: 'DAP (Di-Ammonium Phosphate)', brands: [
+                    { name: 'IFFCO', initial: 'I', skus: ['DAP (18-46-0)'], tags: ['Phosphorus', 'Sowing'] }
+                ]},
+                npk: { title: 'NPK Complex Fertilizers', brands: [
+                    { name: 'IFFCO', initial: 'I', skus: ['NPK 10:26:26', 'NPK 12:32:16', 'NPK 20:20:0'], tags: ['Balanced', 'Multi-stage'] }
+                ]},
+                urea: { title: 'Urea', brands: [
+                    { name: 'IFFCO', initial: 'I', skus: ['Neem-Coated Urea (46% N)'], tags: ['Nitrogen', 'Top-dressing'] }
+                ]},
+                micro: { title: 'Micronutrients', brands: [
+                    { name: 'UPL', initial: 'U', skus: ['Zinc Sulphate', 'Multi-Micro Mix'], tags: ['Deficiency', 'Soil Health'] }
+                ]},
+                nano: { title: 'Nano Fertilizers', brands: [
+                    { name: 'IFFCO', initial: 'I', skus: ['Nano Urea', 'Nano DAP', 'Nano Zinc'], tags: ['Nano', 'High Efficiency'] }
+                ]},
+                specialty: { title: 'Specialty Fertilizers', brands: [
+                    { name: 'Syngenta', initial: 'S', skus: ['Water-Soluble Foliar Fertilizers'], tags: ['Foliar', 'Targeted'] }
+                ]}
+            }
         },
         pesticides: {
             title: 'Pesticides & Crop Protection',
-            subtitle: 'Effective pest and disease management from trusted brands',
-            items: [
-                { name: 'Insecticides', brand: 'Syngenta / UPL', desc: 'Broad-spectrum and targeted insecticides for bollworm, aphids, whitefly, and sucking pests in cotton and other crops.' },
-                { name: 'Fungicides', brand: 'Syngenta', desc: 'Preventive and curative fungicides for powdery mildew, rust, leaf spot, and other fungal diseases.' },
-                { name: 'Herbicides', brand: 'UPL / Syngenta', desc: 'Pre-emergence and post-emergence weedkillers for effective weed management in cotton, wheat, and jowar fields.' },
-                { name: 'Plant Growth Regulators', brand: 'UPL', desc: 'Growth regulators to manage plant height, improve boll retention in cotton, and optimize yield.' },
-                { name: 'Seed Treatment', brand: 'Syngenta', desc: 'Seed treatment solutions for early-stage protection against soil-borne diseases and pests.' },
-                { name: 'Bio-Pesticides', brand: 'Multiple Brands', desc: 'Eco-friendly biological pest control solutions for integrated pest management (IPM) practices.' }
-            ]
+            subtitle: 'Effective pest & disease management from trusted brands',
+            filters: [
+                { id: 'all', label: 'All', icon: '\u{1F6E1}\uFE0F' },
+                { id: 'insecticides', label: 'Insecticides', icon: '\u{1F41B}' },
+                { id: 'fungicides', label: 'Fungicides', icon: '\u{1F344}' },
+                { id: 'herbicides', label: 'Herbicides', icon: '\u{1F33F}' },
+                { id: 'seedtreat', label: 'Seed Treatment', icon: '\u{1F489}' }
+            ],
+            groups: {
+                insecticides: { title: 'Insecticides', brands: [
+                    { name: 'Syngenta', initial: 'S', skus: ['Ampligo', 'Alika', 'Actara'], tags: ['Broad Spectrum'] },
+                    { name: 'UPL', initial: 'U', skus: ['Lancer Gold', 'Ulala', 'Phoskill'], tags: ['Systemic'] }
+                ]},
+                fungicides: { title: 'Fungicides', brands: [
+                    { name: 'Syngenta', initial: 'S', skus: ['Amistar', 'Amistar Top'], tags: ['Preventive', 'Curative'] },
+                    { name: 'UPL', initial: 'U', skus: ['Saaf', 'Tridium'], tags: ['Contact', 'Systemic'] }
+                ]},
+                herbicides: { title: 'Herbicides', brands: [
+                    { name: 'Syngenta', initial: 'S', skus: ['Gramoxone', 'Touchdown', 'Rifit Plus'], tags: ['Pre & Post Emergence'] },
+                    { name: 'UPL', initial: 'U', skus: ['Sweep Power', 'Sathi'], tags: ['Weed Control'] }
+                ]},
+                seedtreat: { title: 'Seed Treatment', brands: [
+                    { name: 'Syngenta', initial: 'S', skus: ['Cruiser', 'Maxim'], tags: ['Protection', 'Early Stage'] }
+                ]}
+            }
         }
     };
 
-    const productModal = document.getElementById('productModal');
-    const modalGrid = document.getElementById('modalGrid');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalSubtitle = document.getElementById('modalSubtitle');
-    const modalClose = document.getElementById('modalClose');
+    // Catalog overlay DOM refs
+    const catalogOverlay = document.getElementById('catalogOverlay');
+    const catalogTitle = document.getElementById('catalogTitle');
+    const catalogSubtitle = document.getElementById('catalogSubtitle');
+    const catalogSidebar = document.getElementById('catalogSidebar');
+    const catalogContent = document.getElementById('catalogContent');
+    const catalogClose = document.getElementById('catalogClose');
+    const catalogWhatsApp = document.getElementById('catalogWhatsApp');
+    let currentCategory = null;
+    let currentFilter = 'all';
 
-    function openProductModal(category) {
-        const data = productData[category];
-        if (!data) return;
-        modalTitle.textContent = data.title;
-        modalSubtitle.textContent = data.subtitle;
-        modalGrid.innerHTML = data.items.map(item => `
-            <div class="product-sub-item">
-                <div class="product-sub-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 22c-4-3-8-6-8-11a8 8 0 0116 0c0 5-4 8-8 11z"/></svg>
-                </div>
-                <div>
-                    <div class="product-sub-name">${item.name}</div>
-                    <div class="product-sub-brand">${item.brand}</div>
-                    <div class="product-sub-desc">${item.desc}</div>
-                </div>
+    function renderBrandCard(brand) {
+        return `<div class="brand-card">
+            <div class="brand-card-header">
+                <div class="brand-monogram">${brand.initial}</div>
+                <div class="brand-card-name">${brand.name}</div>
             </div>
-        `).join('');
-        productModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+            <div class="brand-card-skus">
+                ${brand.skus.map(s => `<div class="brand-card-sku">${s}</div>`).join('')}
+            </div>
+            <div class="brand-card-tags">
+                ${brand.tags.map(t => `<span class="brand-card-tag">${t}</span>`).join('')}
+            </div>
+        </div>`;
     }
 
-    function closeProductModal() {
-        productModal.classList.remove('active');
+    function renderCatalogContent(category, filterId) {
+        const data = catalogData[category];
+        if (!data) return '';
+        const groupKeys = filterId === 'all' ? Object.keys(data.groups) : [filterId];
+        let html = '';
+        groupKeys.forEach(key => {
+            const group = data.groups[key];
+            if (!group) return;
+            // Show section title only in "all" view
+            if (filterId === 'all') {
+                html += `<div class="catalog-section-title">${group.title}</div>`;
+            }
+            html += '<div class="catalog-grid">';
+            group.brands.forEach(brand => { html += renderBrandCard(brand); });
+            html += '</div>';
+        });
+        return html;
+    }
+
+    function setFilter(filterId) {
+        currentFilter = filterId;
+        // Update active pill
+        catalogSidebar.querySelectorAll('.catalog-filter').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.filter === filterId);
+        });
+        // Animate content switch
+        catalogContent.style.opacity = '0';
+        setTimeout(() => {
+            catalogContent.innerHTML = renderCatalogContent(currentCategory, filterId);
+            catalogContent.style.opacity = '1';
+            // Stagger card entrance
+            catalogContent.querySelectorAll('.brand-card').forEach((card, i) => {
+                setTimeout(() => card.classList.add('card-visible'), 50 * i);
+            });
+            catalogContent.scrollTop = 0;
+        }, 200);
+    }
+
+    function openCatalog(category) {
+        const data = catalogData[category];
+        if (!data) return;
+        currentCategory = category;
+        currentFilter = 'all';
+        // Set header
+        catalogTitle.textContent = data.title;
+        catalogSubtitle.textContent = data.subtitle;
+        // Build sidebar filters
+        catalogSidebar.innerHTML = data.filters.map(f =>
+            `<button class="catalog-filter${f.id === 'all' ? ' active' : ''}" data-filter="${f.id}">
+                <span class="catalog-filter-icon">${f.icon}</span>${f.label}
+            </button>`
+        ).join('');
+        // Attach filter click handlers
+        catalogSidebar.querySelectorAll('.catalog-filter').forEach(btn => {
+            btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+        });
+        // Render content
+        catalogContent.innerHTML = renderCatalogContent(category, 'all');
+        // WhatsApp link with category pre-filled
+        const waText = encodeURIComponent(`Hi, I'm interested in your ${data.title}. Please share details and pricing.`);
+        catalogWhatsApp.href = `https://wa.me/919920997333?text=${waText}`;
+        // Open overlay
+        catalogOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Stagger card entrance
+        setTimeout(() => {
+            catalogContent.querySelectorAll('.brand-card').forEach((card, i) => {
+                setTimeout(() => card.classList.add('card-visible'), 60 * i);
+            });
+        }, 300);
+    }
+
+    function closeCatalog() {
+        catalogOverlay.classList.remove('active');
         document.body.style.overflow = '';
     }
 
+    // Product card click handlers
     document.querySelectorAll('.product-card[data-category]').forEach(card => {
-        card.addEventListener('click', () => openProductModal(card.dataset.category));
+        card.addEventListener('click', () => openCatalog(card.dataset.category));
     });
 
-    modalClose.addEventListener('click', closeProductModal);
-    productModal.addEventListener('click', (e) => {
-        if (e.target === productModal) closeProductModal();
+    // Close handlers
+    catalogClose.addEventListener('click', closeCatalog);
+    catalogOverlay.addEventListener('click', (e) => {
+        if (e.target === catalogOverlay) closeCatalog();
     });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && productModal.classList.contains('active')) closeProductModal();
+        if (e.key === 'Escape' && catalogOverlay.classList.contains('active')) closeCatalog();
     });
 
     // ── Lightbox ──────────────────────────────────
