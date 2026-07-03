@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kiran-agencies.vercel.app/sitemap.xml
+Sitemap: https://kiranagencies.in/sitemap.xml
